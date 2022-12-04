@@ -7,58 +7,8 @@ from time import sleep
 from os import scandir, rename
 import logging
 import sys
+from constants import *
 
-main_user_folders = ["/Users/talalzeini/Music",
-"/Users/talalzeini/Pictures",
-"/Users/talalzeini/Desktop",
-"/Users/talalzeini/Library",
-"/Users/talalzeini/Public",
-"/Users/talalzeini/Movies",
-"/Users/talalzeini/Documents",
-"/Users/talalzeini/Downloads"]
-main_desktop_folders = ["SJSU Focus", "Development", "LeetCode"]
-automater_of_this = "Manage.app"
-virtual_files = [".DS_Store", ".localized"]
-
-main = "/Users/talalzeini"
-downloads = "/Users/talalzeini/Downloads"
-desktop = "/Users/talalzeini/Desktop"
-documents = "/Users/talalzeini/Documents"
-
-pdf_path = "/Users/talalzeini/Documents/PDF"
-doc_path = "/Users/talalzeini/Documents/DOC"
-docx_path = "/Users/talalzeini/Documents/DOCX"
-
-music_path = "/Users/talalzeini/Downloads/Music"
-videos_path = "/Users/talalzeini/Downloads/Videos"
-images_path = "/Users/talalzeini/Downloads/Images"
-documents_path = "/Users/talalzeini/Downloads/Documents"
-programming_path = "/Users/talalzeini/Downloads/Programming"
-installers_path = "/Users/talalzeini/Downloads/Installers"
-text_path = "/Users/talalzeini/Downloads/Text"
-
-junk = "/Users/talalzeini/Downloads/Junk"
-trash = "/Users/talalzeini/.Trash"
-
-# ? supported image types
-image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw",
-                    ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
-# ? supported Video types
-video_extensions = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg",
-                    ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
-# ? supported Audio types
-audio_extensions = [".m4a", ".flac", "mp3", ".wav", ".wma", ".aac"]
-# ? supported Document types
-document_extensions = [".doc", ".docx", ".odt",
-                       ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
-programming_extensions = [".py", ".cpp", ".c",
-                       ".html", ".css", ".js", ".java"]
-installer_extensions = [".dmg"]
-text_extensions = [".txt", ".rtf"]
-
-downloads_extensions = [image_extensions, video_extensions, audio_extensions, document_extensions, programming_extensions, installer_extensions, text_extensions]
-downloads_paths = [images_path, videos_path, music_path, documents_path, programming_path, installers_path, text_path]
-file_prefix = ["IMG", "VID", "MUS", "DOC", "PRO", "INST", "TXT"]
 
 def random_integer(n):
     characters = string.digits
@@ -66,7 +16,7 @@ def random_integer(n):
     return password
 
 def new_name(index):
-    return str(file_prefix[index]) + "_" + random_integer(10)
+    return str(files_prefixes[index]) + "_" + random_integer(10)
 
 def new_folder_name():
     return "FOLDER" + "_" + random_integer(10)
@@ -124,12 +74,12 @@ def listdirs(folder):
         if os.path.isdir(d)
     ]
 
-all_user_folders = listdirs(main)
+all_user_folders = listdirs(root)
 
 main_folders_to_move = []
 def get_junk_folders():
     for folder in all_user_folders:
-        if folder not in main_user_folders and "." not in folder:
+        if folder not in root_folders and "." not in folder:
             main_folders_to_move.append(folder)
     return main_folders_to_move
 
@@ -137,8 +87,8 @@ def list_desktop_folders():
     folders_to_move = []
     lst = listdirs(desktop)
     for folder in lst:
-        excluded_folders = folder.split(str(desktop) + "/")[1] 
-        if (excluded_folders not in main_desktop_folders) and (excluded_folders != automater_of_this):
+        # making sure ["SJSU Focus", "Focus", "LeetCode"] are not removed
+        if (folder not in desktop_folders) and (automater_of_this not in folder):
             folders_to_move.append(folder)
     return folders_to_move
 
@@ -153,7 +103,7 @@ def move_folder(folders):
 
 move_folder(desktop_folders_to_move)
 move_folder(main_junk_folders)
-move_file(main)
+move_file(root)
 move_file(downloads)
 move_file(desktop)
 move_file(documents) 

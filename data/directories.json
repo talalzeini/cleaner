@@ -1,0 +1,45 @@
+{
+  "root": "/Users/talalzeini",
+  "downloads": "/Users/talalzeini/Downloads",
+  "desktop": "/Users/talalzeini/Desktop",
+  "documents": "/Users/talalzeini/Documents",
+  "developer": "/Users/talalzeini/Developer",
+  "pdf": "/Users/talalzeini/Documents/PDF",
+  "doc": "/Users/talalzeini/Documents/DOC",
+  "docx": "/Users/talalzeini/Documents/DOCX",
+  "music": "/Users/talalzeini/Downloads/Music",
+  "videos": "/Users/talalzeini/Downloads/Videos",
+  "images": "/Users/talalzeini/Downloads/Images",
+  "files": "/Users/talalzeini/Downloads/Files",
+  "programming": "/Users/talalzeini/Downloads/Programming",
+  "installers": "/Users/talalzeini/Downloads/Installers",
+  "text": "/Users/talalzeini/Downloads/Text",
+  "screenshots": "/Users/talalzeini/Downloads/Screenshots",
+  "junk": "/Users/talalzeini/Library/.Access/.Junk",
+  "junk_files": "/Users/talalzeini/Library/.Access/.Junk/Files",
+  "junk_folders": "/Users/talalzeini/Library/.Access/.Junk/Folders",
+  "junk_projects": "/Users/talalzeini/Library/.Access/.Junk/Projects",
+  "trash": "/Users/talalzeini/.Trash",
+  "root_folders": [
+    "/Users/talalzeini/Music",
+    "/Users/talalzeini/Pictures",
+    "/Users/talalzeini/Desktop",
+    "/Users/talalzeini/Library",
+    "/Users/talalzeini/Public",
+    "/Users/talalzeini/Movies",
+    "/Users/talalzeini/Documents",
+    "/Users/talalzeini/Downloads",
+    "/Users/talalzeini/Developer"
+  ],
+  "desktop_folders": [
+    "/Users/talalzeini/Desktop/Focus",
+    "/Users/talalzeini/Desktop/SJSU Focus",
+    "/Users/talalzeini/Desktop/LeetCode"
+  ],
+  "documents_folders": [
+    "/Users/talalzeini/Documents/School",
+    "/Users/talalzeini/Documents/Personal"
+  ],
+  "files_prefixes": ["IMG", "VID", "MUS", "DOC", "PRO", "INST", "TXT"],
+  "virtual_files": [".DS_Store", ".localized"]
+}
