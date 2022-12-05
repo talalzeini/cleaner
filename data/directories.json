@@ -41,5 +41,5 @@
     "/Users/talalzeini/Documents/Personal"
   ],
   "files_prefixes": ["IMG", "VID", "MUS", "DOC", "PRO", "INST", "TXT"],
-  "virtual_files": [".DS_Store", ".localized"]
+  "virtual_files": [".DS_Store", ".localized", ".zprofile"]
 }

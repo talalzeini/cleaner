@@ -62,7 +62,9 @@
     ".swf",
     ".avchd"
   ],
-  "audios": [".m4a", ".flac", "mp3", ".wav", ".wma", ".aac"],
+  "audios": [".m4a", ".flac", ".mp3", ".wav", ".wma", ".aac"],
   "files": [".doc", ".docx", ".odt", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"],
-  "programming": [".py", ".cpp", ".c", ".html", ".css", ".js", ".java"]
+  "programming": [".py", ".cpp", ".c", ".html", ".css", ".js", ".java"],
+  "installers": [".dmg", ".pkg"],
+  "text": [".txt", ".rtf"]
 }

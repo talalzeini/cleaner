@@ -1,13 +1,12 @@
 import json
 
-data_path = "/Users/talalzeini/Library/.Access/Cleaner/cleaner/data"
+data_path = "/Users/talalzeini/Library/.Access/Cleaner/data"
 extensions_data = open(str(data_path) + '/extensions.json')
 directories_data = open(str(data_path) + '/directories.json') 
 extensions = json.load(extensions_data)
 directories = json.load(directories_data)
 
 automater_of_this = "Cleaner.app"
-virtual_files = [".DS_Store", ".localized"]
 library_documents = "/Users/talalzeini/Library/Access/Documents"
 #
 #
@@ -48,16 +47,17 @@ documents_folders = directories["documents_folders"]
 
 
 # Extensions
-image_extensions = [i for i in extensions['images']]
-video_extensions = [i for i in extensions['videos']]
-audio_extensions = [i for i in extensions['audios']]
-file_extensions = [i for i in extensions['files']]
-programming_extensions = [i for i in extensions['programming']]
-installer_extensions = [".dmg", ".pkg"]
-text_extensions = [".txt", ".rtf"]
+image_extensions = extensions['images']
+video_extensions = extensions['videos']
+audio_extensions = extensions['audios']
+file_extensions = extensions['files']
+programming_extensions = extensions['programming']
+installer_extensions = extensions["installers"]
+text_extensions = extensions["text"]
 
 automater_of_this = "Cleaner.app"
-downloads_extensions = [image_extensions, video_extensions, audio_extensions, file_extensions, programming_extensions, installer_extensions, text_extensions]
+downloads_extensions_unmerged = [image_extensions, video_extensions, audio_extensions, file_extensions, programming_extensions, installer_extensions, text_extensions]
+downloads_extensions = [*image_extensions, *video_extensions, *audio_extensions, *file_extensions, *programming_extensions, *installer_extensions, *text_extensions]
 downloads_paths = [images_path, videos_path, music_path, files_path, programming_path, installers_path, text_path]
 files_prefixes = directories["files_prefixes"]
 virtual_files = directories["virtual_files"]
