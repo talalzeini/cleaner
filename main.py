@@ -80,8 +80,6 @@ def create_new(file_name, file_extension):
     new_file_name = new_file_name.lower()
     return new_file_name.capitalize()
 
-
-
 def find_type_of_file(file_extension):
     for index, extension_group in enumerate(downloads_extensions_unmerged):
         if file_extension in extension_group:
@@ -95,12 +93,11 @@ def move_files_in(source):
         file_full_name = file[0]                                # example.txt
         file_extension = file[1]                                # .txt
         if "." in file_full_name:
-            file_name = file_full_name.split(file_extension)  # example
+            file_name = file_full_name.split(file_extension)[0]  # example
         else:
             file_name = file_full_name
         file_location = source + "/"                            # /Users/talalzeini/
         file_extension_folder = file_extension[1:].upper()      # TXT
-
         new_file_name = create_new(file_name, file_extension)
         new_file_path = file_location + new_file_name
         os.rename(file_path, new_file_path)
@@ -159,9 +156,9 @@ def move_folders():
 
 def move_files():
     move_files_in(root)
-    move_files_in(downloads)
     move_files_in(desktop)
-    move_files_in(documents) 
+    move_files_in(documents)
+    move_files_in(downloads) 
 
 def start():
     move_folders()
