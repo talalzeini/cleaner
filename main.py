@@ -61,6 +61,18 @@ def check_capitalization(folder_path, number):
     except Exception as e:
         print(e)
 
+def test_length_of(folder_path, number):
+    try:
+        folders = cs.list_directories(folder_path)
+        size = len(folders)
+        if size > limit_of_projects:
+            raise Exception("Test " + str(number) + ": Failed\n")
+        else:
+            print("Test " + str(number) + ": Passed\n")
+            test_results.append(True)
+    except Exception as e:
+        print(e)
+
 
 
 def get_results(passed, number_of_tests):
@@ -95,9 +107,10 @@ def run_tests():
     check_capitalization(junk_files, 12)
     print("Test 13: Checking if there's any files in the junk folders")
     test_folder_emptiness(junk_folders, 13)
-    results = get_results(len(test_results), 13)
+    print("Test 14: Checking if there's any extra folders in the 'Developer' folder")
+    test_length_of(developer, 14)
+    results = get_results(len(test_results), 14)
     print("\n" +str(results) + " tests failed.\n\n")
-
     if results == 0:
         notify("Successfully cleaned Finder")
     elif results == 1:
@@ -105,16 +118,12 @@ def run_tests():
     else:
         notify(str(results) + "1 failure found")
 
-
-
-
-
 def find_files_in(path):
     files = []
     directory = os.listdir(path)
     for content in directory:
         isFile = os.path.isfile(path + "/" + content)
-        if(isFile and content not in virtual_files and content[0] != "."):
+        if((isFile) and (content not in virtual_files) and (content[0] != ".") and not (path == desktop and content == "New Document.webloc")):
             files.append(path + "/" + content)
     return files
 
@@ -185,11 +194,13 @@ downloads_folders_to_move = list_folders_to_move(downloads, downloads_folders)
 
 def clean_projects():
     folders = list_all_real_folders(developer)
-    if len(folders) > 2:
+    if len(folders) > limit_of_projects:
         for folder in folders:
+            folder_name = folder.split("/")[-1]
             new_folders = list_all_real_folders(developer)
             size = len(new_folders)
-            if size > 2:
+            duplicate = junk_projects + "/" + folder_name
+            if (size > limit_of_projects) and (not cs.is_existing(duplicate)):
                 shutil.move(folder, junk_projects)
 
 def move_folders_in(folders):
@@ -212,6 +223,7 @@ def move_folders():
 def move_files():
     move_files_in(root)
     move_files_in(desktop)
+    move_files_in(developer)
     move_files_in(documents)
     move_files_in(downloads) 
 

@@ -6,6 +6,7 @@ directories_data = open(str(data_path) + '/directories.json')
 extensions = json.load(extensions_data)
 directories = json.load(directories_data)
 
+limit_of_projects = 5
 automater_of_this = "Cleaner.app"
 library_documents = "/Users/talalzeini/Library/Access/Documents"
 #
