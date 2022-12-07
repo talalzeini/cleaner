@@ -28,6 +28,7 @@ installers_path = directories["installers"]
 text_path = directories["text"]
 screenshots_path = directories["screenshots"]
 files_path = directories["files"]
+recordings_path = directories["recordings"]
 #
 pdf_path = directories["pdf"]
 doc_path = directories["doc"]
@@ -43,7 +44,7 @@ trash = directories["trash"]
 #
 root_folders = directories["root_folders"]
 desktop_folders = directories["desktop_folders"]
-downloads_folders = [music_path, music_path, videos_path, images_path, files_path,programming_path, installers_path, text_path, screenshots_path, files_path]
+downloads_folders = [music_path, music_path, videos_path, images_path, files_path,programming_path, installers_path, text_path, screenshots_path, files_path, recordings_path]
 documents_folders = directories["documents_folders"]
 
 

@@ -140,6 +140,16 @@ def find_type_of_file(file_extension):
         if file_extension in extension_group:
             return index
 
+
+def handle_screen_actions(f, path, type):
+    destination = path
+    if not cs.is_existing(destination):
+        os.makedirs(destination)
+    new_file_name = cs.get_file(f)[0].split(type)[1]
+    new_file_path = f.split(cs.get_file(f)[0])[0] + new_file_name
+    os.rename(f, new_file_path)
+    shutil.move(new_file_path, destination + "/" + new_file_name)
+
 def move_files_in(source):
     files = find_files_in(source) # returns a list of paths to files
 
@@ -147,27 +157,33 @@ def move_files_in(source):
         file = cs.get_file(file_path)
         file_full_name = file[0]                                # example.txt
         file_extension = file[1]                                # .txt
-        if "." in file_full_name:
-            file_name = file_full_name.split(file_extension)[0]  # example
-        else:
-            file_name = file_full_name
-        file_location = source + "/"                            # /Users/talalzeini/
-        file_extension_folder = file_extension[1:].upper()      # TXT
-        new_file_name = create_new(file_name, file_extension)
-        new_file_path = file_location + new_file_name
-        os.rename(file_path, new_file_path)
 
-        if file_extension in downloads_extensions:
-            type = find_type_of_file(file_extension)
-            destination = (downloads_paths[type] + "/" + file_extension_folder)
-            if not cs.is_existing(destination):
-                os.makedirs(destination)
-            shutil.move(new_file_path, destination + "/" + new_file_name)
+        if "Screenshot" in file_full_name:
+            handle_screen_actions(file_path, screenshots_path, "Screenshot")
+        elif "Screen Recording" in file_full_name:
+            handle_screen_actions(file_path, recordings_path, "Screen Recording")
         else:
-            destination = junk_files
-            if not cs.is_existing(destination):
-                os.makedirs(destination)
-            shutil.move(new_file_path, destination + "/" + new_file_name)
+            if "." in file_full_name:
+                file_name = file_full_name.split(file_extension)[0]  # example
+            else:
+                file_name = file_full_name
+            file_location = source + "/"                            # /Users/talalzeini/
+            file_extension_folder = file_extension[1:].upper()      # TXT
+            new_file_name = create_new(file_name, file_extension)
+            new_file_path = file_location + new_file_name
+            os.rename(file_path, new_file_path)
+
+            if file_extension in downloads_extensions:
+                type = find_type_of_file(file_extension)
+                destination = (downloads_paths[type] + "/" + file_extension_folder)
+                if not cs.is_existing(destination):
+                    os.makedirs(destination)
+                shutil.move(new_file_path, destination + "/" + new_file_name)
+            else:
+                destination = junk_files
+                if not cs.is_existing(destination):
+                    os.makedirs(destination)
+                shutil.move(new_file_path, destination + "/" + new_file_name)
 
 def list_all_real_folders(folder):
     final_list = []
