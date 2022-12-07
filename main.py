@@ -3,43 +3,74 @@ import shutil
 import compress as cs
 from constants import *
 
+test_results = []
+
+
+
+def notify(title):
+    title = """ " """ + title + """ " """
+    message = """'tell application "Finder" to display alert """"" + str(title) + """'"""
+    os.system("""
+              osascript -e """ + str(message))
+
+
+
+
+
 def test_folder_existence(folder_path, number):
-    if cs.is_existing(folder_path):
-        print("Test " + str(number) + ": Passed\n")
-    else:
-        print("Test " + str(number) + ": Failed\n")
+    try:
+        if cs.is_existing(folder_path):
+            print("Test " + str(number) + ": Passed\n")
+            test_results.append(True)
+        else:
+            raise Exception("Test " + str(number) + ": Failed\n")
+    except Exception as e:
+        print(e)
 
 def test_folder_emptiness(folder_path, number):
-    list_of_files = find_files_in(folder_path)
-    if len(list_of_files) == 0:
-        print("Test " + str(number) + ": Passed\n")
-    else:
-        print("Test " + str(number) + ": Failed\n")
+    try:
+        list_of_files = find_files_in(folder_path)
+        if len(list_of_files) == 0:
+            print("Test " + str(number) + ": Passed\n")
+            test_results.append(True)
+        else:
+            raise Exception("Test " + str(number) + ": Failed\n")
+    except Exception as e:
+        print(e)
 
 def validate_setup(folder_path, original_folders, number):
-    folders = list_all_real_folders(folder_path)
-    for folder in folders:
-        if folder not in original_folders:
-            print("Test " + str(number) + ": Failed\n")
-            return
-    print("Test " + str(number) + ": Passed\n")
+    try:
+        folders = list_all_real_folders(folder_path)
+        for folder in folders:
+            if folder not in original_folders:
+                raise Exception("Test " + str(number) + ": Failed\n")
+        print("Test " + str(number) + ": Passed\n")
+        test_results.append(True)
+    except Exception as e:
+        print(e)
 
 def check_capitalization(folder_path, number):
-    folders = list_all_real_folders(folder_path)
-    for folder in folders:
-        folder_name = folder.split("/")[-1]
-        if folder_name[0].islower():
-            print("Test " + str(number) + ": Failed\n")
-            return
-    print("Test " + str(number) + ": Passed\n")
+    try:
+        folders = cs.list_directories(folder_path)
+        for folder in folders:
+            folder_name = folder.split("/")[-1]
+            if folder_name[0].islower():
+                raise Exception("Test " + str(number) + ": Failed\n")
+        print("Test " + str(number) + ": Passed\n")
+        test_results.append(True)
+    except Exception as e:
+        print(e)
 
+
+
+def get_results(passed, number_of_tests):
+    return number_of_tests - passed
 
 
 def run_tests():
     print("\n\n")
     print("Test 1: Checking if 'Developer' folder still exists")
     test_folder_existence(developer, 1)
-
     print("Test 2: Checking if 'Focus' folder still exists")
     test_folder_existence(desktop_folders[0], 2)
     print("Test 3: Checking if 'SJSU Focus' folder still exists")
@@ -64,6 +95,19 @@ def run_tests():
     check_capitalization(junk_files, 12)
     print("Test 13: Checking if there's any files in the junk folders")
     test_folder_emptiness(junk_folders, 13)
+    results = get_results(len(test_results), 13)
+    print("\n" +str(results) + " tests failed.\n\n")
+
+    if results == 0:
+        notify("Successfully cleaned Finder")
+    elif results == 1:
+        notify("1 failure found")
+    else:
+        notify(str(results) + "1 failure found")
+
+
+
+
 
 def find_files_in(path):
     files = []
@@ -76,7 +120,9 @@ def find_files_in(path):
 
 def create_new(file_name, file_extension): 
     new_file_name = ''.join([i for i in file_name if not i.isdigit()])
-    new_file_name = new_file_name.replace(" ", "") + cs.random_string(5) + file_extension
+    new_file_name = new_file_name.replace(" ", "") 
+    new_file_name = new_file_name.replace("-", "")
+    new_file_name = new_file_name.replace("_", "") + cs.random_string(5) + file_extension
     new_file_name = new_file_name.lower()
     return new_file_name.capitalize()
 
@@ -137,6 +183,15 @@ desktop_folders_to_move = list_folders_to_move(desktop, desktop_folders)
 documents_folders_to_move = list_folders_to_move(documents, documents_folders)
 downloads_folders_to_move = list_folders_to_move(downloads, downloads_folders)
 
+def clean_projects():
+    folders = list_all_real_folders(developer)
+    if len(folders) > 2:
+        for folder in folders:
+            new_folders = list_all_real_folders(developer)
+            size = len(new_folders)
+            if size > 2:
+                shutil.move(folder, junk_projects)
+
 def move_folders_in(folders):
     for folder in folders:
         folder_name = folder.split("/")[-1]
@@ -163,6 +218,7 @@ def move_files():
 def start():
     move_folders()
     move_files()
+    clean_projects()
     run_tests()
 
 start()
