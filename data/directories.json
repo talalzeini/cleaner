@@ -39,7 +39,8 @@
   ],
   "documents_folders": [
     "/Users/talalzeini/Documents/School",
-    "/Users/talalzeini/Documents/Personal"
+    "/Users/talalzeini/Documents/Personal",
+    "/Users/talalzeini/Documents/Business"
   ],
   "files_prefixes": ["IMG", "VID", "MUS", "DOC", "PRO", "INST", "TXT"],
   "virtual_files": [".DS_Store", ".localized", ".zprofile"]
