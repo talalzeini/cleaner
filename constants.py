@@ -87,3 +87,8 @@ music_backup = icloud_drive + "/Tech/Backups/Music"
 artists_path = music_backup + "/artists.txt"
 songs_path = music_backup + "/songs.txt"
 all_path = music_backup + "/all.txt"
+#
+#
+#
+compress = directories["compress"]
+compress_dist_info = directories["compress_dist_info"]

@@ -69,5 +69,7 @@
   ],
   "icloud_drive": "/Users/talalzeini/Library/Mobile Documents/com~apple~CloudDocs",
   "macbook_applications": "/Users/talalzeini/Library/Mobile Documents/com~apple~CloudDocs/Tech/MacBook/Applications",
-  "apple_music": "/Users/talalzeini/Music/Music/Media.localized/Apple Music"
+  "apple_music": "/Users/talalzeini/Music/Music/Media.localized/Apple Music",
+  "compress": "/Users/talalzeini/Library/Python/3.9/lib/python/site-packages/compress",
+  "compress_dist_info": "/Users/talalzeini/Library/Python/3.9/lib/python/site-packages/compress-0.0.1.dist-info"
 }

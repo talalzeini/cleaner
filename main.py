@@ -1,14 +1,9 @@
 import os
-
-import os.path
 import shutil
+import os.path
 import itertools
 import compress as cs
 from constants import *
-from songs import *
-import os
-import os.path
-
 
 test_results = []
 all = {}
@@ -43,6 +38,13 @@ def prepare_songs():
             artist = str(dirpath.split("/")[-2])
             songs.append(song)
             all[artist].append(song)
+
+def update_compress():
+    if(os.path.exists(compress)):
+        shutil.rmtree(compress)
+    if(os.path.exists(compress_dist_info)):
+        shutil.rmtree(compress_dist_info)
+    os.system("python3 -m pip install git+https://github.com/talalzeini/compress.git")
 
 def notify(title):
     title = """ " """ + title + """ " """
@@ -300,6 +302,7 @@ def start():
     clean_projects()
     update_apps()
     update_songs()
+    update_compress()
     run_tests()
     
 
