@@ -7,7 +7,7 @@
   "pdf": "/Users/talalzeini/Documents/PDF",
   "doc": "/Users/talalzeini/Documents/DOC",
   "docx": "/Users/talalzeini/Documents/DOCX",
-  "music": "/Users/talalzeini/Downloads/Music",
+  "audio": "/Users/talalzeini/Downloads/Audio",
   "videos": "/Users/talalzeini/Downloads/Videos",
   "images": "/Users/talalzeini/Downloads/Images",
   "files": "/Users/talalzeini/Downloads/Files",
@@ -43,5 +43,31 @@
     "/Users/talalzeini/Documents/Business"
   ],
   "files_prefixes": ["IMG", "VID", "MUS", "DOC", "PRO", "INST", "TXT"],
-  "virtual_files": [".DS_Store", ".localized", ".zprofile"]
+  "virtual_files": [
+    ".DS_Store",
+    ".localized",
+    ".zprofile",
+    ".CFUserTextEncoding",
+    ".zshrc",
+    ".zsh_history",
+    ".lesshst",
+    ".gitconfig",
+    ".bash_history",
+    ".viminfo"
+  ],
+  "projects": [
+    "ig-post-generator",
+    "ig-tracker",
+    "ig-quiz-helper",
+    "compress",
+    "compress-js",
+    "coding-sensation",
+    "cs-member-page",
+    "portfolio",
+    "reels-generator",
+    "yt-helper"
+  ],
+  "icloud_drive": "/Users/talalzeini/Library/Mobile Documents/com~apple~CloudDocs",
+  "macbook_applications": "/Users/talalzeini/Library/Mobile Documents/com~apple~CloudDocs/Tech/MacBook/Applications",
+  "apple_music": "/Users/talalzeini/Music/Music/Media.localized/Apple Music"
 }

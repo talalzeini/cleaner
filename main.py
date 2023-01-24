@@ -1,21 +1,54 @@
 import os
+
+import os.path
 import shutil
+import itertools
 import compress as cs
 from constants import *
+from songs import *
+import os
+import os.path
+
 
 test_results = []
+all = {}
+songs = []
 
+music = [cs.list_directories(apple_music)]
+artists = list(itertools.chain.from_iterable(music))
 
+def clean_directories(list):
+    for item in range(len(list)):
+        list[item] = list[item].split("/")[-1]
+        all[list[item]] = []
+    return list
+
+artists = clean_directories(artists)
+
+def handle_music(path, list):
+    if(path is not all_path):
+        with open(path, "w") as f:
+            for app in range(len(list)):
+                title = str(app+1) + ". " + str(list[app]) + "\n"
+                f.write(title)
+    else:
+        with open(all_path, "w") as f:
+            for artist in all:
+                f.write(artist + "\n\t-  " + '\n\t-  '.join(all[artist]) + "\n\n\n")
+        
+def prepare_songs():
+    for dirpath, _, filenames in os.walk(apple_music):
+        for i, filename in enumerate([f for f in filenames if f.endswith(".m4p")]):
+            song = str(filename.split(" ", 1)[-1])
+            artist = str(dirpath.split("/")[-2])
+            songs.append(song)
+            all[artist].append(song)
 
 def notify(title):
     title = """ " """ + title + """ " """
     message = """'tell application "Finder" to display alert """"" + str(title) + """'"""
     os.system("""
               osascript -e """ + str(message))
-
-
-
-
 
 def test_folder_existence(folder_path, number):
     try:
@@ -123,7 +156,7 @@ def find_files_in(path):
     directory = os.listdir(path)
     for content in directory:
         isFile = os.path.isfile(path + "/" + content)
-        if((isFile) and (content not in virtual_files) and (content[0] != ".") and not (path == desktop and content == "New Document.webloc")):
+        if((isFile) and (content not in virtual_files) and (content[0] != ".") and not (path == desktop and content == "New Document.webloc") and not (path == desktop and content == "Tasks.webloc") and not (path == desktop and content == "Tasks")):
             files.append(path + "/" + content)
     return files
 
@@ -145,8 +178,8 @@ def handle_screen_actions(f, path, type):
     destination = path
     if not cs.is_existing(destination):
         os.makedirs(destination)
-    new_file_name = cs.get_file(f)[0].split(type)[1]
-    new_file_path = f.split(cs.get_file(f)[0])[0] + new_file_name
+    new_file_name = cs.get_file_info(f)[0].split(type)[1]
+    new_file_path = f.split(cs.get_file_info(f)[0])[0] + new_file_name
     os.rename(f, new_file_path)
     shutil.move(new_file_path, destination + "/" + new_file_name)
 
@@ -154,7 +187,7 @@ def move_files_in(source):
     files = find_files_in(source) # returns a list of paths to files
 
     for file_path in files:
-        file = cs.get_file(file_path)
+        file = cs.get_file_info(file_path)
         file_full_name = file[0]                                # example.txt
         file_extension = file[1]                                # .txt
 
@@ -213,11 +246,12 @@ def clean_projects():
     if len(folders) > limit_of_projects:
         for folder in folders:
             folder_name = folder.split("/")[-1]
-            new_folders = list_all_real_folders(developer)
-            size = len(new_folders)
-            duplicate = junk_projects + "/" + folder_name
-            if (size > limit_of_projects) and (not cs.is_existing(duplicate)):
-                shutil.move(folder, junk_projects)
+            if folder_name not in accepted_projects:
+                new_folders = list_all_real_folders(developer)
+                size = len(new_folders)
+                duplicate = junk_projects + "/" + folder_name
+                if (size > limit_of_projects) and (not cs.is_existing(duplicate)):
+                    shutil.move(folder, junk_projects)
 
 def move_folders_in(folders):
     for folder in folders:
@@ -229,6 +263,13 @@ def move_folders_in(folders):
         if not cs.is_existing(junk_folders):
             os.makedirs(junk_folders)
         shutil.move(new_folder_path, junk_folders)
+
+
+def write_in(path, list):
+    with open(path, "w") as f:
+        for app in list:
+            f.truncate()
+            f.write(app + "\n")
 
 def move_folders():
     move_folders_in(root_folders_to_move)
@@ -243,10 +284,23 @@ def move_files():
     move_files_in(documents)
     move_files_in(downloads) 
 
+def update_apps():
+    write_in(system_applications_file, system_apps)
+    write_in(downloaded_applications_file, downloaded_apps)
+
+def update_songs():
+    prepare_songs()
+    handle_music(artists_path, artists)
+    handle_music(songs_path, songs)
+    handle_music(all_path, songs)
+
 def start():
     move_folders()
     move_files()
     clean_projects()
+    update_apps()
+    update_songs()
     run_tests()
+    
 
 start()
