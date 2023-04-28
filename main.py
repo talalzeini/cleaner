@@ -10,6 +10,11 @@ now = datetime.now()
 hour = now.strftime("%H")
 dt_string = now.strftime("%H:%M:%S %d/%m/%Y")
 
+destination_folder = documents + "/Personal/Downloads"
+
+def backup_downloads():
+    shutil.rmtree(destination_folder, ignore_errors=True) # Remove the destination folder if it already exists
+    shutil.copytree(downloads, destination_folder) # Use shutil to copy the original folder to the destination folder
 
 
 
@@ -337,6 +342,7 @@ def update_apps():
 #     handle_music(all_path, songs)
 
 def start():
+    backup_downloads()
     clean_subdirectories()
     create_directories(essential_folders)
     move_folders()
