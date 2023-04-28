@@ -1,6 +1,6 @@
 import json, glob
 
-data_path = "/Users/talalzeini/Library/.Access/Cleaner/data"
+data_path = "/Users/talalzeini/Library/Access/Cleaner/data"
 extensions_data = open(str(data_path) + '/extensions.json')
 directories_data = open(str(data_path) + '/directories.json') 
 extensions = json.load(extensions_data)
@@ -18,6 +18,7 @@ downloads = directories["downloads"]
 desktop = directories["desktop"]
 documents = directories["documents"]
 developer = directories["developer"]
+# library = directories["library"]
 #
 audio_path = directories["audio"]
 videos_path = directories["videos"]
@@ -38,6 +39,7 @@ junk = directories["junk"]
 junk_files = directories["junk_files"]
 junk_folders = directories["junk_folders"]
 junk_projects = directories["junk_projects"]
+essential_folders = [junk_files, junk_folders, junk_projects]
 trash = directories["trash"]
 #
 #

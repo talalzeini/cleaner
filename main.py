@@ -2,15 +2,47 @@ import os
 import shutil
 import os.path
 import itertools
-import compress as cs
 from constants import *
+import compress as cs
+from datetime import datetime
+
+now = datetime.now()
+hour = now.strftime("%H")
+dt_string = now.strftime("%H:%M:%S %d/%m/%Y")
+
+
+
+
+def track_history(results):
+    file = open("history.txt", "a")  
+    if(int(hour) == 5):
+        file.write("Automated - " + str(dt_string) + " - " + str(results) + " Failures\n")
+    else:
+        file.write("Manual - " + str(dt_string) + " - " + str(results) + " Failures\n")
+
 
 test_results = []
 all = {}
 songs = []
 
-music = [cs.list_directories(apple_music)]
-artists = list(itertools.chain.from_iterable(music))
+# music = [cs.list_directories(apple_music)]
+# artists = list(itertools.chain.from_iterable(music))
+
+def create_directories(essential_folders):
+    for folder in essential_folders:
+        if not cs.is_existing(folder):
+            os.makedirs(folder)
+
+
+
+
+def clean_subdirectories_in(folder):
+    folders = cs.list_directories(folder)
+    for subfolder in folders:
+        move_files_in(subfolder)
+    return folders
+
+
 
 def clean_directories(list):
     for item in range(len(list)):
@@ -18,26 +50,26 @@ def clean_directories(list):
         all[list[item]] = []
     return list
 
-artists = clean_directories(artists)
+# artists = clean_directories(artists)
 
-def handle_music(path, list):
-    if(path is not all_path):
-        with open(path, "w") as f:
-            for app in range(len(list)):
-                title = str(app+1) + ". " + str(list[app]) + "\n"
-                f.write(title)
-    else:
-        with open(all_path, "w") as f:
-            for artist in all:
-                f.write(artist + "\n\t-  " + '\n\t-  '.join(all[artist]) + "\n\n\n")
+# def handle_music(path, list):
+#     if(path is not all_path):
+#         with open(path, "w") as f:
+#             for app in range(len(list)):
+#                 title = str(app+1) + ". " + str(list[app]) + "\n"
+#                 f.write(title)
+#     else:
+#         with open(all_path, "w") as f:
+#             for artist in all:
+#                 f.write(artist + "\n\t-  " + '\n\t-  '.join(all[artist]) + "\n\n\n")
         
-def prepare_songs():
-    for dirpath, _, filenames in os.walk(apple_music):
-        for i, filename in enumerate([f for f in filenames if f.endswith(".m4p")]):
-            song = str(filename.split(" ", 1)[-1])
-            artist = str(dirpath.split("/")[-2])
-            songs.append(song)
-            all[artist].append(song)
+# def prepare_songs():
+#     for dirpath, _, filenames in os.walk(apple_music):
+#         for i, filename in enumerate([f for f in filenames if f.endswith(".m4p")]):
+#             song = str(filename.split(" ", 1)[-1])
+#             artist = str(dirpath.split("/")[-2])
+#             songs.append(song)
+#             all[artist].append(song)
 
 def update_compress():
     if(os.path.exists(compress)):
@@ -94,7 +126,8 @@ def check_capitalization(folder_path, number):
         print("Test " + str(number) + ": Passed\n")
         test_results.append(True)
     except Exception as e:
-        print(e)
+        print("Test " + str(number) + ": Failed")
+        print(str(e) + "\n")
 
 def test_length_of(folder_path, number):
     try:
@@ -146,6 +179,7 @@ def run_tests():
     test_length_of(developer, 14)
     results = get_results(len(test_results), 14)
     print("\n" +str(results) + " tests failed.\n\n")
+    track_history(results)
     if results == 0:
         notify("Successfully cleaned Finder")
     elif results == 1:
@@ -286,23 +320,31 @@ def move_files():
     move_files_in(documents)
     move_files_in(downloads) 
 
+def clean_subdirectories():
+    clean_subdirectories_in(desktop)
+    clean_subdirectories_in(documents)
+    clean_subdirectories_in(downloads)
+
+
 def update_apps():
     write_in(system_applications_file, system_apps)
     write_in(downloaded_applications_file, downloaded_apps)
 
-def update_songs():
-    prepare_songs()
-    handle_music(artists_path, artists)
-    handle_music(songs_path, songs)
-    handle_music(all_path, songs)
+# def update_songs():
+#     prepare_songs()
+#     handle_music(artists_path, artists)
+#     handle_music(songs_path, songs)
+#     handle_music(all_path, songs)
 
 def start():
+    clean_subdirectories()
+    create_directories(essential_folders)
     move_folders()
     move_files()
     clean_projects()
     update_apps()
-    update_songs()
-    update_compress()
+    # update_songs()
+    # update_compress()
     run_tests()
     
 
