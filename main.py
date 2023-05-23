@@ -1,10 +1,10 @@
 import os
 import shutil
 import os.path
-import itertools
 from constants import *
 import compress as cs
 from datetime import datetime
+import getpass
 
 now = datetime.now()
 hour = now.strftime("%H")
@@ -16,7 +16,8 @@ def backup_downloads():
     shutil.rmtree(destination_folder, ignore_errors=True) # Remove the destination folder if it already exists
     shutil.copytree(downloads, destination_folder) # Use shutil to copy the original folder to the destination folder
 
-
+def get_root_username():
+    return str(getpass.getuser())
 
 def track_history(results):
     file = open("history.txt", "a")  
