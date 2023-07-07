@@ -1,66 +1,18 @@
 import os
 import shutil
 import os.path
-import string
-import random
-from datetime import datetime
+from subprocess import call
 from constants import *
+from tests import *
+from tcompress import is_existing
+from helpers import list_files, list_visible_folders, create_new_name, write_list_to_file
 
-# Generate a random string of length n
-def random_string(n):
-    characters = string.ascii_uppercase
-    password = "".join(random.choice(characters) for i in range(n))
-    return str(password)
+number_of_renamed_files = 0
+number_of_renamed_folders = 0
+number_of_moved_files = 0
+number_of_moved_folders = 0
 
-
-def get_file_info(file_path):
-    split_path = os.path.splitext(file_path)
-    file_name = file_path.split("/")[-1]
-    file_extension = split_path[1]
-    file_location = file_path.split("/" + file_name)[0]
-    return [file_name, file_extension, file_location]
-
-
-def is_existing(path):
-    return os.path.exists(path)
-
-
-now = datetime.now()
-hour = now.strftime("%H")
-dt_string = now.strftime("%H:%M:%S %d/%m/%Y")
-time = dt_string.split(" ")[0]
-date = dt_string.split(" ")[1]
-
-destination_folder = documents + "/Personal/Downloads"
-
-
-def backup_downloads():
-    shutil.rmtree(
-        destination_folder, ignore_errors=True
-    )  # Remove the destination folder if it already exists
-    shutil.copytree(
-        downloads, destination_folder
-    )  # Use shutil to copy the original folder to the destination folder
-
-
-def track_history(results):
-    if results == 1:
-        results = str(results + " Failure")
-    elif results == 0:
-        results = str("No Failures")
-    else:
-        results = str(results) + " Failures"
-    with open(history_file, "a") as file:
-        if int(hour) == 5:
-            file.write("{:<15s} {:<15s} {:<15s} {:<15s}\n".format(time, date, "Automated", results))
-        else:
-            file.write("{:<15s} {:<15s} {:<15s} {:<15s}\n".format(time, date, "Manual", results))
-
-
-
-test_results = []
 all = {}
-songs = []
 
 
 def create_directories(essential_folders):
@@ -69,196 +21,7 @@ def create_directories(essential_folders):
             os.makedirs(folder)
 
 
-def list_directories(folder_path):
-    return [
-        d
-        for d in (os.path.join(folder_path, d1) for d1 in os.listdir(folder_path))
-        if os.path.isdir(d)
-    ]
 
-
-def clean_subdirectories_in(folder):
-    folders = list_directories(folder)
-    for subfolder in folders:
-        move_files_in(subfolder)
-    return folders
-
-
-def clean_directories(list):
-    for item in range(len(list)):
-        list[item] = list[item].split("/")[-1]
-        all[list[item]] = []
-    return list
-
-
-# artists = clean_directories(artists)
-
-# def handle_music(path, list):
-#     if(path is not all_path):
-#         with open(path, "w") as f:
-#             for app in range(len(list)):
-#                 title = str(app+1) + ". " + str(list[app]) + "\n"
-#                 f.write(title)
-#     else:
-#         with open(all_path, "w") as f:
-#             for artist in all:
-#                 f.write(artist + "\n\t-  " + '\n\t-  '.join(all[artist]) + "\n\n\n")
-
-# def prepare_songs():
-#     for dirpath, _, filenames in os.walk(apple_music):
-#         for i, filename in enumerate([f for f in filenames if f.endswith(".m4p")]):
-#             song = str(filename.split(" ", 1)[-1])
-#             artist = str(dirpath.split("/")[-2])
-#             songs.append(song)
-#             all[artist].append(song)
-
-
-def update_compress():
-    if os.path.exists(compress):
-        shutil.rmtree(compress)
-    if os.path.exists(compress_dist_info):
-        shutil.rmtree(compress_dist_info)
-    os.system("python3 -m pip install git+https://github.com/talalzeini/compress.git")
-
-
-# def notify(title):
-#     title = """ " """ + title + """ " """
-#     message = """'tell application "Finder" to display alert """"" + str(title) + """'"""
-#     os.system("""
-#               osascript -e """ + str(message))
-
-
-def test_folder_existence(folder_path, number):
-    try:
-        if is_existing(folder_path):
-            print("Test " + str(number) + ": Passed\n")
-            test_results.append(True)
-        else:
-            raise Exception("Test " + str(number) + ": Failed\n")
-    except Exception as e:
-        print(e)
-
-
-def test_folder_emptiness(folder_path, number):
-    try:
-        list_of_files = find_files_in(folder_path)
-        if len(list_of_files) == 0:
-            print("Test " + str(number) + ": Passed\n")
-            test_results.append(True)
-        else:
-            raise Exception("Test " + str(number) + ": Failed\n")
-    except Exception as e:
-        print(e)
-
-
-def validate_setup(folder_path, original_folders, number):
-    try:
-        folders = list_all_real_folders(folder_path)
-        for folder in folders:
-            if folder not in original_folders:
-                raise Exception("Test " + str(number) + ": Failed\n")
-        print("Test " + str(number) + ": Passed\n")
-        test_results.append(True)
-    except Exception as e:
-        print(e)
-
-
-def check_capitalization(folder_path, number):
-    try:
-        folders = list_directories(folder_path)
-        for folder in folders:
-            folder_name = folder.split("/")[-1]
-            if folder_name[0].islower():
-                raise Exception("Test " + str(number) + ": Failed\n")
-        print("Test " + str(number) + ": Passed\n")
-        test_results.append(True)
-    except Exception as e:
-        print("Test " + str(number) + ": Failed")
-        print(str(e) + "\n")
-
-
-def test_length_of(folder_path, number):
-    try:
-        folders = list_directories(folder_path)
-        size = len(folders)
-        if size > limit_of_projects:
-            raise Exception("Test " + str(number) + ": Failed\n")
-        else:
-            print("Test " + str(number) + ": Passed\n")
-            test_results.append(True)
-    except Exception as e:
-        print(e)
-
-
-def get_results(passed, number_of_tests):
-    return number_of_tests - passed
-
-
-def run_tests():
-    print("\n\n")
-    print("Test 1: Checking if 'Developer' folder still exists")
-    test_folder_existence(developer, 1)
-    print("Test 2: Checking if 'Focus' folder still exists")
-    test_folder_existence(desktop_folders[0], 2)
-    print("Test 3: Checking if 'SJSU Focus' folder still exists")
-    test_folder_existence(desktop_folders[1], 3)
-    print("Test 4: Checking if 'LeetCode Focus' folder still exists")
-    test_folder_existence(desktop_folders[2], 4)
-    print("Test 5: Checking if there's any files in the root directory")
-    test_folder_emptiness(root, 5)
-    print("Test 6: Checking if there's any files in the Documents folder")
-    test_folder_emptiness(documents, 6)
-    print("Test 7: Checking if there's any files in the Downloads folder")
-    test_folder_emptiness(downloads, 7)
-    print("Test 8: Checking if there's any archived folders in the root folder")
-    validate_setup(root, root_folders, 8)
-    print("Test 9: Checking if there's any archived folders in the 'Documents' folder")
-    validate_setup(documents, documents_folders, 9)
-    print("Test 10: Checking if there's any archived folders in the 'Downloads' folder")
-    validate_setup(downloads, downloads_folders, 10)
-    print("Test 11: Checking if all archived folders are capitalized")
-    check_capitalization(archived_folders, 11)
-    print("Test 12: Checking if all archived files are capitalized")
-    check_capitalization(archived_files, 12)
-    print("Test 13: Checking if there's any files in the archived folders")
-    test_folder_emptiness(archived_folders, 13)
-    print("Test 14: Checking if there's any extra folders in the 'Developer' folder")
-    test_length_of(developer, 14)
-    results = get_results(len(test_results), 14)
-    print("\n" + str(results) + " tests failed.\n\n")
-    track_history(results)
-    # if results == 0:
-    #     notify("Successfully cleaned Finder")
-    # elif results == 1:
-    #     notify("1 failure found")
-    # else:
-    #     notify(str(results) + "1 failure found")
-
-
-def find_files_in(path):
-    files = []
-    directory = os.listdir(path)
-    for content in directory:
-        isFile = os.path.isfile(path + "/" + content)
-        if (
-            (isFile)
-            and (content not in virtual_files)
-            and (content[0] != ".")
-            and not (path == desktop and content == "New Document.webloc")
-            and not (path == desktop and content == "Tasks.webloc")
-            and not (path == desktop and content == "Tasks")
-        ):
-            files.append(path + "/" + content)
-    return files
-
-
-def create_new(file_name, file_extension):
-    new_file_name = "".join([i for i in file_name if not i.isdigit()])
-    new_file_name = new_file_name.replace(" ", "")
-    new_file_name = new_file_name.replace("-", "")
-    new_file_name = new_file_name.replace("_", "") + random_string(5) + file_extension
-    new_file_name = new_file_name.lower()
-    return new_file_name.capitalize()
 
 
 def find_type_of_file(file_extension):
@@ -266,149 +29,148 @@ def find_type_of_file(file_extension):
         if file_extension in extension_group:
             return index
 
+def move_files(source):
+    """
+    Moves files from the source folder to the appropriate destination folder.
 
-def handle_screen_actions(f, path, type):
-    destination = path
-    if not is_existing(destination):
-        os.makedirs(destination)
-    new_file_name = get_file_info(f)[0].split(type)[1]
-    new_file_path = f.split(get_file_info(f)[0])[0] + new_file_name
-    os.rename(f, new_file_path)
-    shutil.move(new_file_path, destination + "/" + new_file_name)
+    Args:
+        source (str): The path to the source folder.
 
+    Returns:
+        None
+    """
 
-def move_files_in(source):
-    files = find_files_in(source)  # returns a list of paths to files
+    global number_of_renamed_files
+    global number_of_moved_files
+
+    files = list_files(source)  # Get a list of paths to files
 
     for file_path in files:
-        file = get_file_info(file_path)
-        file_full_name = file[0]  # example.txt
-        file_extension = file[1]  # .txt
+        # Get file info
+        file_name, file_extension = os.path.splitext(file_path)
+        file_name = os.path.basename(file_name)
+        file_location = source + "/"
+        file_extension_folder = file_extension[1:].upper()
 
-        if "Screenshot" in file_full_name:
-            handle_screen_actions(file_path, screenshots_path, "Screenshot")
-        elif "Screen Recording" in file_full_name:
-            handle_screen_actions(file_path, recordings_path, "Screen Recording")
-        else:
-            if "." in file_full_name:
-                file_name = file_full_name.split(file_extension)[0]  # example
-            else:
-                file_name = file_full_name
-            file_location = source + "/"  # /Users/talalzeini/
-            file_extension_folder = file_extension[1:].upper()  # TXT
-            new_file_name = create_new(file_name, file_extension)
-            new_file_path = file_location + new_file_name
+        # Create new file name
+        new_file_name = create_new_name(file_name, file_extension)
+        new_file_path = os.path.join(file_location, new_file_name)
+
+        # Rename the file only if the new file name has changed
+        if file_path != new_file_path:
             os.rename(file_path, new_file_path)
+            number_of_renamed_files += 1
 
-            if file_extension in downloads_extensions:
-                type = find_type_of_file(file_extension)
-                destination = downloads_paths[type] + "/" + file_extension_folder
-                if not is_existing(destination):
-                    os.makedirs(destination)
-                shutil.move(new_file_path, destination + "/" + new_file_name)
-            else:
-                destination = archived_files
-                if not is_existing(destination):
-                    os.makedirs(destination)
-                shutil.move(new_file_path, destination + "/" + new_file_name)
+        if file_extension in downloads_extensions:
+            # Move to the corresponding downloads folder
+            file_extension_index = find_type_of_file(file_extension)
+            destination = os.path.join(downloads_paths[file_extension_index], file_extension_folder)
+        else:
+            # Move to the archived files folder
+            destination = archived_files
 
+        # Create the destination folder if it doesn't exist
+        if not is_existing(destination):
+            os.makedirs(destination)
 
-def list_all_real_folders(folder):
-    final_list = []
-    folders = list_directories(folder)
-    for folder in folders:
-        folder_name = folder.split("/")[-1]
-        if folder_name[0] != ".":
-            final_list.append(folder)
-    return final_list
+        # Move the file to the destination folder
+        shutil.move(new_file_path, os.path.join(destination, new_file_name))
+        number_of_moved_files += 1
+
 
 
 # returns a list of paths to folders
 def list_folders_to_move(folder_path, original_folders):
     folders_to_move = []
-    lst = list_all_real_folders(folder_path)
+    lst = list_visible_folders(folder_path)
     for folder in lst:
         if (
             (folder not in original_folders)
-            and (automater_of_this not in folder)
+            and (cleaner not in folder)
             and ("." not in folder)
         ):
             folders_to_move.append(folder)
     return folders_to_move
 
 
-root_folders_to_move = list_folders_to_move(root, root_folders)
-desktop_folders_to_move = list_folders_to_move(desktop, desktop_folders)
-documents_folders_to_move = list_folders_to_move(documents, documents_folders)
-downloads_folders_to_move = list_folders_to_move(downloads, downloads_folders)
+def print_updates():
+    global number_of_moved_folders
+    global number_of_renamed_folders
+    global number_of_moved_files
+    global number_of_renamed_files
+
+    response = ""
+    changes = number_of_renamed_files + number_of_renamed_folders + number_of_moved_files + number_of_moved_folders
+    if(number_of_renamed_files > 0):
+        response += ("Renamed " + str(number_of_renamed_files) + " files\n")
+    if(number_of_renamed_folders > 0):
+        response += ("Renamed " + str(number_of_renamed_folders) + " folders\n")
+    if(number_of_moved_files > 0):
+        response += ("Moved " + str(number_of_moved_files) + " files\n")
+    if(number_of_moved_folders > 0):
+        response += ("Moved " + str(number_of_moved_folders) + " folders\n")
+    if(changes == 0):
+        response = "No changes made"
+    else:
+        response += ("Changes made: " + str(changes) + "\n")
+    return response
+
+def display_results():
+    results = run_tests()
+    if results == 0:
+        print(print_updates())
+    elif results == 1:
+        print("1 failure found")
+    else:
+        print(str(results) + " failures found")
 
 
-def clean_projects():
-    folders = list_all_real_folders(developer)
-    if len(folders) > limit_of_projects:
-        for folder in folders:
-            folder_name = folder.split("/")[-1]
-            if folder_name not in accepted_projects:
-                new_folders = list_all_real_folders(developer)
-                size = len(new_folders)
-                duplicate = archived_projects + "/" + folder_name
-                if (size > limit_of_projects) and (not is_existing(duplicate)):
-                    shutil.move(folder, archived_projects)
+def close_all_finder_windows():
+    """
+    Closes all open Finder windows.
+    
+    Args:
+        None
+
+    Returns:
+        None
+    """
+    call(["osascript", "-e", close_finder_windows_string])
 
 
-def move_folders_in(folders):
+root_structure = [(root, root_folders), (desktop, desktop_folders), (documents, documents_folders), (downloads, downloads_folders), (icloud_drive, icloud_drive_folders)]
+
+
+def move_folders(folders):
     for folder in folders:
         folder_name = folder.split("/")[-1]
         folder_location = folder.split(folder_name)[0]
-        new_folder_name = create_new(folder_name, "")
+        new_folder_name = create_new_name(folder_name, "")
         new_folder_path = folder_location + new_folder_name
         os.rename(folder, new_folder_path)
         if not is_existing(archived_folders):
             os.makedirs(archived_folders)
         shutil.move(new_folder_path, archived_folders)
 
+def organize_essential_folder(path, fixed_folders):
+    move_files(path)
+    folders_to_move = list_folders_to_move(path, fixed_folders)
+    move_folders(folders_to_move)
 
-def write_in(path, list):
-    with open(path, "w") as f:
-        for app in list:
-            f.truncate()
-            f.write(app + "\n")
-
-
-def move_folders():
-    move_folders_in(root_folders_to_move)
-    move_folders_in(desktop_folders_to_move)
-    move_folders_in(documents_folders_to_move)
-    move_folders_in(downloads_folders_to_move)
-
-
-def move_files():
-    move_files_in(root)
-    move_files_in(desktop)
-    move_files_in(developer)
-    move_files_in(documents)
-    move_files_in(downloads)
-
-
-def clean_subdirectories():
-    clean_subdirectories_in(desktop)
-    clean_subdirectories_in(documents)
-    clean_subdirectories_in(downloads)
-
+def organize_finder():
+    for path, fixed_folders in root_structure:
+        organize_essential_folder(path, fixed_folders)
 
 def update_apps():
-    write_in(system_applications_file, system_apps)
-    write_in(downloaded_applications_file, downloaded_apps)
-
+    write_list_to_file(system_applications_file, system_apps)
+    write_list_to_file(downloaded_applications_file, downloaded_apps)
 
 def start():
-    clean_subdirectories()
     create_directories(essential_folders)
-    move_folders()
-    move_files()
+    organize_finder()
     update_apps()
-    run_tests()
-    backup_downloads()
+    display_results()
+    close_all_finder_windows()
 
 
 start()

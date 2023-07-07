@@ -1,25 +1,9 @@
-import json, glob, getpass
+import os, json, glob
+from helpers import get_root_username, replace_username
 
-
-def get_root_username():
-    return str(getpass.getuser())
-
-
-replacement_value = get_root_username()
-
-
-def replace_username(dictionary):
-    for key, value in dictionary.items():
-        if type(value) != list:
-            value = value.replace("{username}", replacement_value)
-            dictionary[key] = value
-        else:
-            for i in range(len(value)):
-                value[i] = value[i].replace("{username}", replacement_value)
-                dictionary[key] = value
-
-
-data_path = "/Users/" + str(get_root_username()) + "/Developer/Cleaner/data"
+username = get_root_username()
+cleaner_path = os.getcwd()
+data_path = cleaner_path + "/data"
 extensions_data = open(str(data_path) + "/extensions.json")
 directories_data = open(str(data_path) + "/directories.json")
 extensions = json.load(extensions_data)
@@ -28,8 +12,11 @@ directories = json.load(directories_data)
 # essential
 replace_username(directories)
 
-limit_of_projects = 15
-automater_of_this = "Cleaner.app"
+cleaner = "Cleaner.app"
+close_finder_windows_string = """
+    tell application "Finder"
+        close every window
+    end tell"""
 #
 #
 #
@@ -39,7 +26,6 @@ downloads = directories["downloads"]
 desktop = directories["desktop"]
 documents = directories["documents"]
 developer = directories["developer"]
-# library = directories["library"]
 #
 audio_path = directories["audio"]
 videos_path = directories["videos"]
@@ -59,15 +45,13 @@ docx_path = directories["docx"]
 archived = directories["archived"]
 archived_files = directories["archived_files"]
 archived_folders = directories["archived_folders"]
-archived_projects = directories["archived_projects"]
-essential_folders = [archived_files, archived_folders, archived_projects]
-trash = directories["trash"]
 #
 #
 #
 root_folders = directories["root_folders"]
 desktop_folders = directories["desktop_folders"]
 downloads_folders = [
+    archived,
     audio_path,
     videos_path,
     images_path,
@@ -80,6 +64,7 @@ downloads_folders = [
     recordings_path,
 ]
 documents_folders = directories["documents_folders"]
+icloud_drive_folders = directories["icloud_drive_folders"]
 #
 #
 #
@@ -94,7 +79,6 @@ text_extensions = extensions["text"]
 #
 #
 #
-automater_of_this = "Cleaner.app"
 downloads_extensions_unmerged = [
     image_extensions,
     video_extensions,
@@ -123,8 +107,6 @@ downloads_paths = [
     text_path,
 ]
 files_prefixes = directories["files_prefixes"]
-virtual_files = directories["virtual_files"]
-accepted_projects = directories["projects"]
 #
 #
 #
@@ -146,15 +128,9 @@ downloaded_apps = list(
 )
 #
 #
-#
-apple_music = directories["apple_music"]
-music_backup = icloud_drive + "/Tech/Backups/Music"
-artists_path = music_backup + "/artists.txt"
-songs_path = music_backup + "/songs.txt"
-all_path = music_backup + "/all.txt"
-#
-#
-#
-compress = directories["compress"]
-compress_dist_info = directories["compress_dist_info"]
-history_file = directories["history_file"]
+# 
+extensions_folder = directories["extensions"]
+visual_studio = directories["visual_studio"]
+visual_studio_settings = directories["visual_studio_settings"]
+essential_folders = [archived_files, archived_folders]
+logs_file = directories["logs_file"]

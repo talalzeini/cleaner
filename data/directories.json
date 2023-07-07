@@ -16,11 +16,10 @@
   "text": "/Users/{username}/Downloads/Text",
   "screenshots": "/Users/{username}/Downloads/Screenshots",
   "recordings": "/Users/{username}/Downloads/Recordings",
-  "archived": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Archived",
-  "archived_files": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Archived/Files",
-  "archived_folders": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Archived/Folders",
-  "archived_projects": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Archived/Projects",
-  "trash": "/Users/{username}/.Trash",
+  "archived": "/Users/{username}/Downloads/Archived",
+  "archived_files": "/Users/{username}/Downloads/Archived/Files",
+  "archived_folders": "/Users/{username}/Downloads/Archived/Folders",
+
   "root_folders": [
     "/Users/{username}/Music",
     "/Users/{username}/Pictures",
@@ -32,47 +31,24 @@
     "/Users/{username}/Downloads",
     "/Users/{username}/Developer"
   ],
-  "desktop_folders": [
-    "/Users/{username}/Desktop/CS 100W",
-    "/Users/{username}/Desktop/MATH 142",
-    "/Users/{username}/Desktop/MATH 127",
-    "/Users/{username}/Desktop/MATH 161A",
-    "/Users/{username}/Desktop/CS 49J"
-  ],
+  "desktop_folders": ["/Users/{username}/Desktop/CS 146"],
   "documents_folders": [
     "/Users/{username}/Documents/School",
-    "/Users/{username}/Documents/Personal",
-    "/Users/{username}/Documents/Business"
+    "/Users/{username}/Documents/Personal"
+  ],
+  "icloud_drive_folders": [
+    "/Users/{username}/Downloads/Archived",
+    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Desktop",
+    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Documents",
+    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Emergency",
+    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Pictures",
+    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Tech"
   ],
   "files_prefixes": ["IMG", "VID", "MUS", "DOC", "PRO", "INST", "TXT"],
-  "virtual_files": [
-    ".DS_Store",
-    ".localized",
-    ".zprofile",
-    ".CFUserTextEncoding",
-    ".zshrc",
-    ".zsh_history",
-    ".lesshst",
-    ".gitconfig",
-    ".bash_history",
-    ".viminfo"
-  ],
-  "projects": [
-    "ig-post-generator",
-    "ig-tracker",
-    "ig-quiz-helper",
-    "compress",
-    "compress-js",
-    "coding-sensation",
-    "cs-member-page",
-    "portfolio",
-    "reels-generator",
-    "yt-helper"
-  ],
   "icloud_drive": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs",
   "macbook_applications": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Tech/MacBook/Applications",
-  "apple_music": "/Users/{username}/Music/Music/Media.localized/Apple Music",
-  "compress": "/Users/{username}/Library/Python/3.9/lib/python/site-packages/compress",
-  "compress_dist_info": "/Users/{username}/Library/Python/3.9/lib/python/site-packages/compress-0.0.1.dist-info",
-  "history_file": "/Users/{username}/Developer/Cleaner/history.txt"
+  "logs_file": "/Users/{username}/Developer/Cleaner/logs.txt",
+  "extensions": "/Users/{username}/.vscode/extensions",
+  "visual_studio": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Tech/MacBook/Setup/MacBook Pro 2021/Visual Studio Code",
+  "visual_studio_settings": "/Users/{username}/Library/Application Support/Code/User/settings.json"
 }
