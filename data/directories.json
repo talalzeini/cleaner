@@ -31,7 +31,12 @@
     "/Users/{username}/Downloads",
     "/Users/{username}/Developer"
   ],
-  "desktop_folders": ["/Users/{username}/Desktop/CS 146"],
+  "desktop_folders": [
+    "/Users/{username}/Desktop/CS 143M",
+    "/Users/{username}/Desktop/MATH 177",
+    "/Users/{username}/Desktop/CS 151",
+    "/Users/{username}/Desktop/CS 157A"
+  ],
   "documents_folders": [
     "/Users/{username}/Documents/School",
     "/Users/{username}/Documents/Personal"

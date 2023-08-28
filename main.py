@@ -4,7 +4,8 @@ import os.path
 from subprocess import call
 from constants import *
 from tests import *
-from tcompress import is_existing
+from string import ascii_lowercase
+from random import choices
 from helpers import list_files, list_visible_folders, create_new_name, write_list_to_file
 
 number_of_renamed_files = 0
@@ -12,17 +13,10 @@ number_of_renamed_folders = 0
 number_of_moved_files = 0
 number_of_moved_folders = 0
 
-all = {}
-
-
 def create_directories(essential_folders):
     for folder in essential_folders:
         if not is_existing(folder):
             os.makedirs(folder)
-
-
-
-
 
 def find_type_of_file(file_extension):
     for index, extension_group in enumerate(downloads_extensions_unmerged):
@@ -77,8 +71,6 @@ def move_files(source):
         shutil.move(new_file_path, os.path.join(destination, new_file_name))
         number_of_moved_files += 1
 
-
-
 # returns a list of paths to folders
 def list_folders_to_move(folder_path, original_folders):
     folders_to_move = []
@@ -91,7 +83,6 @@ def list_folders_to_move(folder_path, original_folders):
         ):
             folders_to_move.append(folder)
     return folders_to_move
-
 
 def print_updates():
     global number_of_moved_folders
@@ -124,7 +115,6 @@ def display_results():
     else:
         print(str(results) + " failures found")
 
-
 def close_all_finder_windows():
     """
     Closes all open Finder windows.
@@ -137,19 +127,25 @@ def close_all_finder_windows():
     """
     call(["osascript", "-e", close_finder_windows_string])
 
-
 root_structure = [(root, root_folders), (desktop, desktop_folders), (documents, documents_folders), (downloads, downloads_folders), (icloud_drive, icloud_drive_folders)]
-
 
 def move_folders(folders):
     for folder in folders:
         folder_name = folder.split("/")[-1]
         folder_location = folder.split(folder_name)[0]
         new_folder_name = create_new_name(folder_name, "")
+        if new_folder_name == ".":
+            new_folder_name = folder_name
         new_folder_path = folder_location + new_folder_name
-        os.rename(folder, new_folder_path)
         if not is_existing(archived_folders):
             os.makedirs(archived_folders)
+
+        if os.path.exists(new_folder_path):
+            # Folder already exists in the destination directory,
+            random_chars = ''.join(choices(ascii_lowercase, k=3))
+            new_folder_path = os.path.join(folder_location, new_folder_name + random_chars)
+
+        os.rename(folder, new_folder_path)
         shutil.move(new_folder_path, archived_folders)
 
 def organize_essential_folder(path, fixed_folders):
@@ -171,6 +167,5 @@ def start():
     update_apps()
     display_results()
     close_all_finder_windows()
-
 
 start()

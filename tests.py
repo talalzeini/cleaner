@@ -111,10 +111,8 @@ def validate_folder_structure(folder_path, original_folders):
         print(e)
     number_of_tests += 1
 
-
 def get_results():
     return number_of_tests - number_of_successful_tests
-
 
 def run_tests():
     folders_to_test = [
@@ -149,7 +147,10 @@ def run_tests():
         (downloads, "'Downloads' folder"),
         (developer, "'Developer' folder"),
         (icloud_drive, "'iCloud Drive' folder"),
-        (desktop_folders[0], "'CS 146' folder"),
+        (desktop_folders[0], "'CS 143M' folder"),
+        (desktop_folders[1], "'MATH 177' folder"),
+        (desktop_folders[2], "'CS 151' folder"),
+        (desktop_folders[3], "'CS 157A' folder"),
         (system_applications_file, "'system.txt' file"),
         (downloaded_applications_file, "'downloaded.txt' file"),
         (logs_file, "'logs' file")
