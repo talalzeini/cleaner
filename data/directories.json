@@ -41,6 +41,14 @@
     "/Users/{username}/Documents/School",
     "/Users/{username}/Documents/Personal"
   ],
+  "developer_folders": [
+    "/Users/{username}/Developer/01. Web Development",
+    "/Users/{username}/Developer/02. Game Development",
+    "/Users/{username}/Developer/03. iOS Development",
+    "/Users/{username}/Developer/04. AR/VR Development",
+    "/Users/{username}/Developer/05. Python",
+    "/Users/{username}/Developer/06. Other"
+  ],
   "icloud_drive_folders": [
     "/Users/{username}/Downloads/Archived",
     "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Desktop",
@@ -50,9 +58,10 @@
     "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Tech"
   ],
   "files_prefixes": ["IMG", "VID", "MUS", "DOC", "PRO", "INST", "TXT"],
+  "screenshots_directory": "/Users/{username}/Downloads/Screenshots",
   "icloud_drive": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs",
   "macbook_applications": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Tech/MacBook/Applications",
-  "logs_file": "/Users/{username}/Developer/Cleaner/logs.txt",
+  "logs_file": "/Users/{username}/Library/Cleaner/logs.txt",
   "extensions": "/Users/{username}/.vscode/extensions",
   "visual_studio": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Tech/MacBook/Setup/MacBook Pro 2021/Visual Studio Code",
   "visual_studio_settings": "/Users/{username}/Library/Application Support/Code/User/settings.json"

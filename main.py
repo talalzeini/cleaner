@@ -127,7 +127,22 @@ def close_all_finder_windows():
     """
     call(["osascript", "-e", close_finder_windows_string])
 
-root_structure = [(root, root_folders), (desktop, desktop_folders), (documents, documents_folders), (downloads, downloads_folders), (icloud_drive, icloud_drive_folders)]
+def organize_screenshots():
+    screenshot_paths = list_files(screenshots_directory)
+    for screenshot_path in screenshot_paths:
+        screenshot_name = os.path.basename(screenshot_path)
+        if screenshot_name.startswith("SS "):
+            screenshot_date_string = screenshot_name.split(" at ")[0][3:]  # Remove "SS " prefix
+            screenshot_date = datetime.strptime(screenshot_date_string, "%Y-%m-%d")
+            folder_name = screenshot_date.strftime("%m-%Y")
+            destination_folder = os.path.join(screenshots_directory, folder_name)
+            
+            if not is_existing(destination_folder):
+                os.makedirs(destination_folder, exist_ok=True)
+            
+            shutil.move(screenshot_path, os.path.join(destination_folder, screenshot_name))
+
+root_structure = [(root, root_folders), (desktop, desktop_folders), (documents, documents_folders), (downloads, downloads_folders), (developer, developer_folders), (icloud_drive, icloud_drive_folders)]
 
 def move_folders(folders):
     for folder in folders:
@@ -162,6 +177,7 @@ def update_apps():
     write_list_to_file(downloaded_applications_file, downloaded_apps)
 
 def start():
+    organize_screenshots()
     create_directories(essential_folders)
     organize_finder()
     update_apps()

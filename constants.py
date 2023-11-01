@@ -64,6 +64,7 @@ downloads_folders = [
     recordings_path,
 ]
 documents_folders = directories["documents_folders"]
+developer_folders = directories["developer_folders"]
 icloud_drive_folders = directories["icloud_drive_folders"]
 #
 #
@@ -107,6 +108,7 @@ downloads_paths = [
     text_path,
 ]
 files_prefixes = directories["files_prefixes"]
+screenshots_directory = directories["screenshots_directory"]
 #
 #
 #
