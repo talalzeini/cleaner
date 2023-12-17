@@ -18,6 +18,10 @@ def create_directories(essential_folders):
         if not is_existing(folder):
             os.makedirs(folder)
 
+def create_file(file_path):
+    if not os.path.exists(file_path):
+        open(file_path, 'w')
+
 def find_type_of_file(file_extension):
     for index, extension_group in enumerate(downloads_extensions_unmerged):
         if file_extension in extension_group:
@@ -142,7 +146,7 @@ def organize_screenshots():
             
             shutil.move(screenshot_path, os.path.join(destination_folder, screenshot_name))
 
-root_structure = [(root, root_folders), (desktop, desktop_folders), (documents, documents_folders), (downloads, downloads_folders), (developer, developer_folders), (icloud_drive, icloud_drive_folders)]
+root_structure = [(root, root_folders), (desktop, desktop_folders), (documents, documents_folders), (downloads, downloads_folders), (developer, developer_folders)]
 
 def move_folders(folders):
     for folder in folders:
@@ -177,6 +181,7 @@ def update_apps():
     write_list_to_file(downloaded_applications_file, downloaded_apps)
 
 def start():
+    create_file(logs_file)
     organize_screenshots()
     create_directories(essential_folders)
     organize_finder()

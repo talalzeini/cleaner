@@ -65,7 +65,6 @@ downloads_folders = [
 ]
 documents_folders = directories["documents_folders"]
 developer_folders = directories["developer_folders"]
-icloud_drive_folders = directories["icloud_drive_folders"]
 #
 #
 #
@@ -112,7 +111,6 @@ screenshots_directory = directories["screenshots_directory"]
 #
 #
 #
-icloud_drive = directories["icloud_drive"]
 macbook_applications = directories["macbook_applications"]
 system_applications_file = macbook_applications + "/system.txt"
 downloaded_applications_file = macbook_applications + "/downloaded.txt"

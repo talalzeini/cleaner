@@ -120,8 +120,7 @@ def run_tests():
         (desktop, "'Desktop' folder"),
         (documents, "'Documents' folder"),
         (downloads, "'Downloads' folder"),
-        (developer, "'Developer' folder"),
-        (icloud_drive, "'iCloud Drive' folder"),
+        (developer, "'Developer' folder")
     ]
 
     for folder_path, folder_name in folders_to_test:
@@ -132,8 +131,7 @@ def run_tests():
         (root, root_folders, "root directory"),
         (desktop, desktop_folders, "'Desktop' folder"),
         (documents, documents_folders, "'Documents' folder"),
-        (downloads, downloads_folders, "'Downloads' folder"),
-        (icloud_drive, icloud_drive_folders, "'iCloud Drive' folder")
+        (downloads, downloads_folders, "'Downloads' folder")
     ]
 
     for folder_path, original_folders, folder_name in folders_to_validate:
@@ -146,11 +144,7 @@ def run_tests():
         (documents, "'Documents' folder"),
         (downloads, "'Downloads' folder"),
         (developer, "'Developer' folder"),
-        (icloud_drive, "'iCloud Drive' folder"),
-        (desktop_folders[0], "'CS 143M' folder"),
-        (desktop_folders[1], "'MATH 177' folder"),
-        (desktop_folders[2], "'CS 151' folder"),
-        (desktop_folders[3], "'CS 157A' folder"),
+        (desktop_folders[0], "'Tech' folder"),
         (system_applications_file, "'system.txt' file"),
         (downloaded_applications_file, "'downloaded.txt' file"),
         (logs_file, "'logs' file")

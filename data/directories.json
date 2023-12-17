@@ -32,10 +32,7 @@
     "/Users/{username}/Developer"
   ],
   "desktop_folders": [
-    "/Users/{username}/Desktop/CS 143M",
-    "/Users/{username}/Desktop/MATH 177",
-    "/Users/{username}/Desktop/CS 151",
-    "/Users/{username}/Desktop/CS 157A"
+    "/Users/{username}/Desktop/Tech"
   ],
   "documents_folders": [
     "/Users/{username}/Documents/School",
@@ -49,20 +46,11 @@
     "/Users/{username}/Developer/05. Python",
     "/Users/{username}/Developer/06. Other"
   ],
-  "icloud_drive_folders": [
-    "/Users/{username}/Downloads/Archived",
-    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Desktop",
-    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Documents",
-    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Emergency",
-    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Pictures",
-    "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Tech"
-  ],
   "files_prefixes": ["IMG", "VID", "MUS", "DOC", "PRO", "INST", "TXT"],
   "screenshots_directory": "/Users/{username}/Downloads/Screenshots",
-  "icloud_drive": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs",
-  "macbook_applications": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Tech/MacBook/Applications",
-  "logs_file": "/Users/{username}/Library/Cleaner/logs.txt",
+  "macbook_applications": "/Users/{username}/Desktop/Tech/MacBook/Applications",
+  "logs_file": "/Users/{username}/Developer/05. Python/cleaner/logs.txt",
   "extensions": "/Users/{username}/.vscode/extensions",
-  "visual_studio": "/Users/{username}/Library/Mobile Documents/com~apple~CloudDocs/Tech/MacBook/Setup/MacBook Pro 2021/Visual Studio Code",
+  "visual_studio": "/Users/{username}/Desktop/Tech/MacBook/Setup/MacBook Pro 2021/Visual Studio Code",
   "visual_studio_settings": "/Users/{username}/Library/Application Support/Code/User/settings.json"
 }
